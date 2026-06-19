@@ -599,8 +599,8 @@ async function loadTenants() {
             <tr>
                 <td><strong>${t.name}</strong></td>
                 <td><code>${t.subdomain}</code></td>
-                <td>${t.subscriptionPlan}</td>
-                <td><span class="status-badge active">${t.active ? 'Active' : 'Suspended'}</span></td>
+                <td>${t.plan}</td>
+                <td><span class="status-badge active">${t.status || 'ACTIVE'}</span></td>
             </tr>
         `).join('');
     } catch (err) {
@@ -614,7 +614,7 @@ document.getElementById('form-onboard').addEventListener('submit', async (e) => 
     const body = {
         name: document.getElementById('onboard-name').value,
         subdomain: document.getElementById('onboard-subdomain').value,
-        subscriptionPlan: document.getElementById('onboard-plan').value
+        plan: document.getElementById('onboard-plan').value
     };
 
     const btn = document.getElementById('btn-submit-onboard');

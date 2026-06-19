@@ -55,16 +55,16 @@ Write-Host "`n[1/5] Onboarding MIT and Harvard Campuses..." -ForegroundColor Yel
 $MitTenant = Invoke-CampusRequest -Path "/api/tenants" -Method "POST" -Body @{
     name = "Massachusetts Institute of Technology"
     subdomain = "mit"
-    subscriptionPlan = "ENTERPRISE"
+    plan = "ENTERPRISE"
 }
-Write-Host "✓ Onboarded Tenant: $($MitTenant.name) [subdomain: $($MitTenant.subdomain)]" -ForegroundColor Green
+Write-Host "[OK] Onboarded Tenant: $($MitTenant.name) [subdomain: $($MitTenant.subdomain)]" -ForegroundColor Green
 
 $HarvardTenant = Invoke-CampusRequest -Path "/api/tenants" -Method "POST" -Body @{
     name = "Harvard University"
     subdomain = "harvard"
-    subscriptionPlan = "ENTERPRISE"
+    plan = "ENTERPRISE"
 }
-Write-Host "✓ Onboarded Tenant: $($HarvardTenant.name) [subdomain: $($HarvardTenant.subdomain)]" -ForegroundColor Green
+Write-Host "[OK] Onboarded Tenant: $($HarvardTenant.name) [subdomain: $($HarvardTenant.subdomain)]" -ForegroundColor Green
 
 
 # -------------------------------------------------------------
@@ -82,7 +82,7 @@ $UsersMit = @(
 
 foreach ($u in $UsersMit) {
     $res = Invoke-CampusRequest -Path "/api/auth/register" -Method "POST" -Body $u
-    Write-Host "  ✓ Registered MIT User: $($u.name) ($($u.role))" -ForegroundColor DarkGray
+    Write-Host "  [OK] Registered MIT User: $($u.name) ($($u.role))" -ForegroundColor DarkGray
 }
 
 # Harvard Users
@@ -95,7 +95,7 @@ $UsersHarvard = @(
 
 foreach ($u in $UsersHarvard) {
     $res = Invoke-CampusRequest -Path "/api/auth/register" -Method "POST" -Body $u
-    Write-Host "  ✓ Registered Harvard User: $($u.name) ($($u.role))" -ForegroundColor DarkGray
+    Write-Host "  [OK] Registered Harvard User: $($u.name) ($($u.role))" -ForegroundColor DarkGray
 }
 
 
@@ -119,7 +119,7 @@ $BooksMit = @(
 )
 foreach ($b in $BooksMit) {
     $res = Invoke-CampusRequest -Path "/api/library/books" -Method "POST" -Body $b -Token $MitLibToken -TenantId "mit"
-    Write-Host "  ✓ Seeded Book (MIT): $($b.title)" -ForegroundColor DarkGray
+    Write-Host "  [OK] Seeded Book (MIT): $($b.title)" -ForegroundColor DarkGray
 }
 
 # Login as MIT Warden to add rooms
@@ -136,7 +136,7 @@ $RoomsMit = @(
 )
 foreach ($r in $RoomsMit) {
     $res = Invoke-CampusRequest -Path "/api/hostel/rooms" -Method "POST" -Body $r -Token $MitWardenToken -TenantId "mit"
-    Write-Host "  ✓ Seeded Room (MIT): $($r.roomNumber)" -ForegroundColor DarkGray
+    Write-Host "  [OK] Seeded Room (MIT): $($r.roomNumber)" -ForegroundColor DarkGray
 }
 
 # Login as MIT Admin to add fee structure
@@ -152,7 +152,7 @@ $FeeMit = Invoke-CampusRequest -Path "/api/fees/structures" -Method "POST" -Body
     amount = 6000.00
     dueDate = "2026-09-30"
 } -Token $MitAdminToken -TenantId "mit"
-Write-Host "  ✓ Seeded Fee Structure (MIT): Tuition Fee ($6000.00)" -ForegroundColor DarkGray
+Write-Host "  [OK] Seeded Fee Structure (MIT): Tuition Fee (`$6000.00)" -ForegroundColor DarkGray
 
 
 # -------------------------------------------------------------
@@ -174,7 +174,7 @@ $BooksHarvard = @(
 )
 foreach ($b in $BooksHarvard) {
     $res = Invoke-CampusRequest -Path "/api/library/books" -Method "POST" -Body $b -Token $HarvardLibToken -TenantId "harvard"
-    Write-Host "  ✓ Seeded Book (Harvard): $($b.title)" -ForegroundColor DarkGray
+    Write-Host "  [OK] Seeded Book (Harvard): $($b.title)" -ForegroundColor DarkGray
 }
 
 # Login as Harvard Warden to add rooms
@@ -190,7 +190,7 @@ $RoomsHarvard = @(
 )
 foreach ($r in $RoomsHarvard) {
     $res = Invoke-CampusRequest -Path "/api/hostel/rooms" -Method "POST" -Body $r -Token $HarvardWardenToken -TenantId "harvard"
-    Write-Host "  ✓ Seeded Room (Harvard): $($r.roomNumber)" -ForegroundColor DarkGray
+    Write-Host "  [OK] Seeded Room (Harvard): $($r.roomNumber)" -ForegroundColor DarkGray
 }
 
 # Login as Harvard Admin to add fee structure
@@ -206,7 +206,7 @@ $FeeHarvard = Invoke-CampusRequest -Path "/api/fees/structures" -Method "POST" -
     amount = 8500.00
     dueDate = "2026-10-15"
 } -Token $HarvardAdminToken -TenantId "harvard"
-Write-Host "  ✓ Seeded Fee Structure (Harvard): Tuition Fee ($8500.00)" -ForegroundColor DarkGray
+Write-Host "  [OK] Seeded Fee Structure (Harvard): Tuition Fee (`$8500.00)" -ForegroundColor DarkGray
 
 
 # -------------------------------------------------------------
@@ -222,14 +222,14 @@ $MitStudentLogin = Invoke-CampusRequest -Path "/api/auth/login" -Method "POST" -
 }
 $MitStudentToken = $MitStudentLogin.token
 
-$MitCatalog = Invoke-CampusRequest -Path "/api/library/books" -Method "GET" -Token $MitStudentToken -TenantId "mit"
+$MitCatalog = @(Invoke-CampusRequest -Path "/api/library/books" -Method "GET" -Token $MitStudentToken -TenantId "mit")
 Write-Host "  MIT Library Query yielded: $($MitCatalog.Length) books" -ForegroundColor White
 if ($MitCatalog.Length -ne 3) {
     Write-Host "  [FAIL] Expected exactly 3 books in MIT catalog!" -ForegroundColor Red
     exit 1
 }
 
-$MitRooms = Invoke-CampusRequest -Path "/api/hostel/rooms" -Method "GET" -Token $MitStudentToken -TenantId "mit"
+$MitRooms = @(Invoke-CampusRequest -Path "/api/hostel/rooms" -Method "GET" -Token $MitStudentToken -TenantId "mit")
 Write-Host "  MIT Hostel Rooms Query yielded: $($MitRooms.Length) rooms" -ForegroundColor White
 if ($MitRooms.Length -ne 2) {
     Write-Host "  [FAIL] Expected exactly 2 rooms in MIT hostel inventory!" -ForegroundColor Red
@@ -244,14 +244,14 @@ $HarvardStudentLogin = Invoke-CampusRequest -Path "/api/auth/login" -Method "POS
 }
 $HarvardStudentToken = $HarvardStudentLogin.token
 
-$HarvardCatalog = Invoke-CampusRequest -Path "/api/library/books" -Method "GET" -Token $HarvardStudentToken -TenantId "harvard"
+$HarvardCatalog = @(Invoke-CampusRequest -Path "/api/library/books" -Method "GET" -Token $HarvardStudentToken -TenantId "harvard")
 Write-Host "  Harvard Library Query yielded: $($HarvardCatalog.Length) books" -ForegroundColor White
 if ($HarvardCatalog.Length -ne 2) {
     Write-Host "  [FAIL] Expected exactly 2 books in Harvard catalog!" -ForegroundColor Red
     exit 1
 }
 
-$HarvardRooms = Invoke-CampusRequest -Path "/api/hostel/rooms" -Method "GET" -Token $HarvardStudentToken -TenantId "harvard"
+$HarvardRooms = @(Invoke-CampusRequest -Path "/api/hostel/rooms" -Method "GET" -Token $HarvardStudentToken -TenantId "harvard")
 Write-Host "  Harvard Hostel Rooms Query yielded: $($HarvardRooms.Length) rooms" -ForegroundColor White
 if ($HarvardRooms.Length -ne 1) {
     Write-Host "  [FAIL] Expected exactly 1 room in Harvard hostel inventory!" -ForegroundColor Red
