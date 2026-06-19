@@ -1,0 +1,45 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      default-filters:
+        - JwtAuthenticationFilter
+      routes:
+        - id: tenant-service-route
+          uri: lb://tenant-service
+          predicates:
+            - Path=/api/tenants/**
+        - id: auth-service-route
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/auth/**
+        - id: attendance-service-route
+          uri: lb://attendance-service
+          predicates:
+            - Path=/api/attendance/**
+        - id: library-service-route
+          uri: lb://library-service
+          predicates:
+            - Path=/api/library/**
+        - id: hostel-service-route
+          uri: lb://hostel-service
+          predicates:
+            - Path=/api/hostel/**
+        - id: fee-service-route
+          uri: lb://fee-service
+          predicates:
+            - Path=/api/fees/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.gateway: TRACE

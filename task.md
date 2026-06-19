@@ -1,0 +1,21 @@
+# Tasks: Phase 4 - Frontend, Deployment, and Seeding
+
+- [x] Create Dockerfiles for all Microservices
+  - [x] `eureka-server/Dockerfile`
+  - [x] `api-gateway/Dockerfile`
+  - [x] `tenant-service/Dockerfile`
+  - [x] `auth-service/Dockerfile`
+  - [x] `attendance-service/Dockerfile`
+  - [x] `library-service/Dockerfile`
+  - [x] `hostel-service/Dockerfile`
+  - [x] `fee-service/Dockerfile`
+- [x] Create Root Docker Compose configuration
+  - [x] `docker-compose.yml`
+- [x] Implement Static Frontend UI in API Gateway
+  - [x] Create `index.html` in `api-gateway/src/main/resources/static/`
+  - [x] Create `app.css` in `api-gateway/src/main/resources/static/`
+  - [x] Create `app.js` in `api-gateway/src/main/resources/static/`
+- [x] Create PowerShell Seeding Script
+  - [x] Create `seed.ps1` in root workspace directory
+- [x] Verify build and execution
+  - [x] Compile and package microservices with Maven to verify package bundling

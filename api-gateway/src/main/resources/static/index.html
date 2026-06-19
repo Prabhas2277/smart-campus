@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Campus SaaS Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon"></div>
+                <div class="logo-text">
+                    <h1>SmartCampus</h1>
+                    <span class="subtext">SaaS Platform</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" id="nav-onboard">
+                    <span class="nav-icon">🏢</span>
+                    <span class="nav-label">Onboard Tenants</span>
+                </a>
+                <a href="#" class="nav-item" id="nav-login">
+                    <span class="nav-icon">🔑</span>
+                    <span class="nav-label">Campus Login</span>
+                </a>
+                <a href="#" class="nav-item hidden" id="nav-dashboard">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer" id="tenant-badge-container">
+                <div class="tenant-badge hidden" id="active-tenant-badge">
+                    <span class="tenant-dot"></span>
+                    <span class="tenant-name" id="badge-tenant-name">MIT Campus</span>
+                </div>
+                <button class="btn btn-logout hidden" id="btn-logout-action">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <h2 id="view-title">Onboard a New Campus</h2>
+                    <p id="view-subtitle" class="text-secondary">Onboard new colleges and universities onto the smart campus multi-tenant SaaS grid.</p>
+                </div>
+                <div class="header-right">
+                    <div class="profile-info hidden" id="profile-container">
+                        <div class="avatar" id="avatar-icon">U</div>
+                        <div class="profile-details">
+                            <span class="profile-name" id="header-user-name">User Name</span>
+                            <span class="profile-role" id="header-user-role">Role</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-viewport">
+                <!-- Notifications/Alert Toast -->
+                <div class="toast-container" id="toast-box"></div>
+
+                <!-- 1. Onboarding Section -->
+                <section class="viewport-section active" id="section-onboard">
+                    <div class="grid grid-2">
+                        <div class="card glass">
+                            <h3>Tenant Metadata Details</h3>
+                            <form id="form-onboard">
+                                <div class="form-group">
+                                    <label for="onboard-name">Institution Name</label>
+                                    <input type="text" id="onboard-name" placeholder="e.g. Massachusetts Institute of Technology" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="onboard-subdomain">Subdomain / Tenant Key</label>
+                                    <input type="text" id="onboard-subdomain" placeholder="e.g. mit" required>
+                                    <small class="form-help">This resolves context and scopes database requests.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="onboard-plan">Subscription Plan</label>
+                                    <select id="onboard-plan">
+                                        <option value="BASIC">Basic Edition</option>
+                                        <option value="PREMIUM">Premium Edition</option>
+                                        <option value="ENTERPRISE" selected>Enterprise Academic Grid</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary" id="btn-submit-onboard">Register Tenant</button>
+                            </form>
+                        </div>
+
+                        <div class="card glass flex-column justify-between">
+                            <div>
+                                <h3>Active Tenants Registry</h3>
+                                <p class="text-secondary">Global metadata directory mapping tenants from the global shared database schema.</p>
+                                
+                                <div class="tenant-list-container">
+                                    <table class="data-table" id="table-tenants">
+                                        <thead>
+                                            <tr>
+                                                <th>Institution</th>
+                                                <th>Subdomain</th>
+                                                <th>Plan</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Dynamic Tenants -->
+                                            <tr class="empty-row"><td colspan="4">Loading tenants...</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div class="stats-preview">
+                                <div class="stat-badge">
+                                    <span class="stat-num" id="stat-tenant-count">0</span>
+                                    <span class="stat-lbl">Active Campuses</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. Login Section -->
+                <section class="viewport-section" id="section-login">
+                    <div class="card glass auth-card mx-auto">
+                        <div class="auth-header">
+                            <h3>Campus User Authentication</h3>
+                            <p class="text-secondary">Access tenant-scoped resources by verifying credentials.</p>
+                        </div>
+
+                        <form id="form-login">
+                            <div class="form-group">
+                                <label for="login-tenant">Campus Subdomain</label>
+                                <input type="text" id="login-tenant" placeholder="e.g. mit" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="login-email">Email Address</label>
+                                <input type="email" id="login-email" placeholder="e.g. alice@campus.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="login-password">Password</label>
+                                <input type="password" id="login-password" placeholder="••••••••" required>
+                            </div>
+                            
+                            <div class="auth-actions">
+                                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                                <button type="button" class="btn btn-outline btn-block" id="btn-go-to-register">Register New User</button>
+                            </div>
+                        </form>
+
+                        <form id="form-register" class="hidden">
+                            <div class="form-group">
+                                <label for="reg-tenant">Campus Subdomain</label>
+                                <input type="text" id="reg-tenant" placeholder="e.g. mit" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-name">Full Name</label>
+                                <input type="text" id="reg-name" placeholder="e.g. Alice Smith" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-email">Email Address</label>
+                                <input type="email" id="reg-email" placeholder="e.g. alice@campus.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-password">Password</label>
+                                <input type="password" id="reg-password" placeholder="••••••••" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-role">Campus Account Role</label>
+                                <select id="reg-role">
+                                    <option value="STUDENT" selected>Student</option>
+                                    <option value="LIBRARIAN">Librarian</option>
+                                    <option value="WARDEN">Hostel Warden</option>
+                                    <option value="CAMPUS_ADMIN">Campus Administrator</option>
+                                </select>
+                            </div>
+                            
+                            <div class="auth-actions">
+                                <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                                <button type="button" class="btn btn-outline btn-block" id="btn-back-to-login">Back to Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- 3. Dynamic Dashboard Sections (Student, Librarian, Warden, Campus Admin) -->
+                <section class="viewport-section" id="section-dashboard">
+                    <!-- Dashboard widgets will be rendered dynamically based on active role -->
+                    <div id="role-dashboard-container"></div>
+                </section>
+            </div>
+        </main>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
