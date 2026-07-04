@@ -33,6 +33,7 @@ services:
     ports:
       - "8081:8081"
     environment:
+      SPRING_PROFILES_ACTIVE: postgres
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/smart_campus
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
@@ -50,6 +51,7 @@ services:
     ports:
       - "8082:8082"
     environment:
+      SPRING_PROFILES_ACTIVE: postgres
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/smart_campus
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
@@ -67,6 +69,7 @@ services:
     ports:
       - "8083:8083"
     environment:
+      SPRING_PROFILES_ACTIVE: postgres
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/smart_campus
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
@@ -84,6 +87,7 @@ services:
     ports:
       - "8084:8084"
     environment:
+      SPRING_PROFILES_ACTIVE: postgres
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/smart_campus
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
@@ -101,6 +105,7 @@ services:
     ports:
       - "8085:8085"
     environment:
+      SPRING_PROFILES_ACTIVE: postgres
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/smart_campus
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
@@ -118,6 +123,7 @@ services:
     ports:
       - "8086:8086"
     environment:
+      SPRING_PROFILES_ACTIVE: postgres
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/smart_campus
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
