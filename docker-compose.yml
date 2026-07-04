@@ -19,7 +19,9 @@ services:
       retries: 5
 
   eureka-server:
-    build: ./eureka-server
+    build:
+      context: .
+      dockerfile: eureka-server/Dockerfile
     container_name: eureka-server
     ports:
       - "8761:8761"
@@ -28,7 +30,9 @@ services:
       EUREKA_CLIENT_FETCH_REGISTRY: "false"
 
   tenant-service:
-    build: ./tenant-service
+    build:
+      context: .
+      dockerfile: tenant-service/Dockerfile
     container_name: tenant-service
     ports:
       - "8081:8081"
@@ -46,7 +50,9 @@ services:
         condition: service_started
 
   auth-service:
-    build: ./auth-service
+    build:
+      context: .
+      dockerfile: auth-service/Dockerfile
     container_name: auth-service
     ports:
       - "8082:8082"
@@ -64,7 +70,9 @@ services:
         condition: service_started
 
   attendance-service:
-    build: ./attendance-service
+    build:
+      context: .
+      dockerfile: attendance-service/Dockerfile
     container_name: attendance-service
     ports:
       - "8083:8083"
@@ -82,7 +90,9 @@ services:
         condition: service_started
 
   library-service:
-    build: ./library-service
+    build:
+      context: .
+      dockerfile: library-service/Dockerfile
     container_name: library-service
     ports:
       - "8084:8084"
@@ -100,7 +110,9 @@ services:
         condition: service_started
 
   hostel-service:
-    build: ./hostel-service
+    build:
+      context: .
+      dockerfile: hostel-service/Dockerfile
     container_name: hostel-service
     ports:
       - "8085:8085"
@@ -118,7 +130,9 @@ services:
         condition: service_started
 
   fee-service:
-    build: ./fee-service
+    build:
+      context: .
+      dockerfile: fee-service/Dockerfile
     container_name: fee-service
     ports:
       - "8086:8086"
@@ -136,7 +150,9 @@ services:
         condition: service_started
 
   api-gateway:
-    build: ./api-gateway
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
     container_name: api-gateway
     ports:
       - "8080:8080"
